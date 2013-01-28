@@ -1,0 +1,88 @@
+﻿@model IEnumerable<CLIMB.Models.MaterialModel>
+
+@{
+    ViewBag.Title = "Material Inventory";
+}
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.ui.multidraggable-1.8.8.js"></script>
+    <link href="~/Content/themes/rs-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
+}
+
+<h2>Material Inventory</h2>
+<hr />
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tbody class="ui-widget-content">
+        <tr class="ui-widget-header">
+        <th>
+           @Html.DisplayNameFor(model => model._Material_key)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model._MaterialType_key)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaterialID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaterialName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model._Workgroup_key)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifiedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateModified)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item._Material_key)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item._MaterialType_key)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaterialID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaterialName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item._Workgroup_key)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifiedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateModified)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {key=item._Material_key}) |
+            @Html.ActionLink("Delete", "Delete", new {key=item._Material_key})
+        </td>
+    </tr>
+}
+</tbody>
+</table>

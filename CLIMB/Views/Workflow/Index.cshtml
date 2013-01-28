@@ -1,0 +1,125 @@
+﻿@model IEnumerable<CLIMB.Models.EventModel>
+
+@{
+    ViewBag.Title = "Workflow";
+}
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.ui.multidraggable-1.8.8.js"></script>
+    <link href="~/Content/themes/rs-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.multidraggable').multidraggable({
+                cursor: 'move',
+                helper: 'clone',
+                opacity: '.50'
+            });
+            $(".dp").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'mm/dd/yy',
+                gotoCurrent: true
+            });
+            $(".droppable").droppable({
+                drop:processEventDrop
+
+            });
+        });
+        function processEventDrop(event, ui) {
+            var strAnimalKeys = "";
+            var animalKey;
+            var draggable = ui.draggable;
+            var elements = $(".ui-multidraggable[id*=Event]");
+
+            if (elements.length == 0) // single animal is being dropped
+                elements = draggable;
+
+            for (var i = 0; i < elements.length; i++) {
+                eventType = elements[i].id;
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Create")',
+                    data: { eventType: eventType },
+                    success: function (result) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+<h2>Workflow</h2>
+<hr />
+<table>
+    <tr>
+        <td valign="top"><br />
+            <div id="matingEvent" class="multidraggable ui-state-active">
+                <p>Mating</p>
+            </div>
+
+            <div id="weanEvent" class="multidraggable ui-state-active">
+                <p>Wean</p>
+            </div>
+
+            <div id="shipEvent" class="multidraggable ui-state-active">
+                <p>Shipment</p>
+            </div>
+        </td>
+        <td valign="top">
+            <table class="droppable" style="height: 200px; width: 200px; border: 1px solid black;">
+            <tbody class="ui-widget-content">
+                <tr class="ui-widget-header">
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProjectedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ActualDate)
+                    </th>
+                    <th>Related Events
+                    </th>
+                    <th>Materials
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => item.ProjectedDate)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => item.ActualDate)
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { key = item._Event_key }) | @Html.ActionLink("Delete", "Delete", new { key = item._Event_key })
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+
